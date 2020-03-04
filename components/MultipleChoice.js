@@ -44,7 +44,6 @@ render(){
         <View style={{ flexDirection:'column', justifyContent:'center'}}>
         <TouchableWithoutFeedback  onPress={this.startAnimation}>
           <Animated.View style={[styles.div,animatedStyles.transform,animatedStyles.genislik]}>
-          <Text>dsads</Text>
           </Animated.View>
         </TouchableWithoutFeedback>
       </View>
