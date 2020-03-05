@@ -1,42 +1,8 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-import { ThemeProvider, Button } from 'react-native-elements';
-import TreeView from 'react-native-final-tree-view';
-import BottomDrawer from 'rn-bottom-drawer';
-import { SearchBar } from 'react-native-elements';
-//import ProjectsContents from './components/ProjectsContents';
-//import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import MapView from "react-native-map-clustering";
-import Icon from 'react-native-vector-icons/FontAwesome';
 import React from 'react';
-import { Marker } from "react-native-maps";
-import SitesContent from "./components/SitesContent";
-
-import {
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  TouchableOpacity
-} from 'react-native';
-
-function getIndicator(isExpanded, hasChildrenNodes) {
-  if (!hasChildrenNodes) {
-    return '-'
-  } else if (isExpanded) {
-    return '\\/'
-  } else {
-    return '>'
-  }
-}
-
-const TAB_BAR_HEIGHT = -75;
-
+import {SafeAreaView,StyleSheet,ScrollView,View,Text,StatusBar,Touch,TouchableOpacity } from 'react-native';
+import TreeView from 'react-native-final-tree-view';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { SearchBar,ThemeProvider, Button } from 'react-native-elements';
 const family = [
   {
     id: 'Grandparent',
@@ -121,7 +87,6 @@ const family = [
     ],
   },
 ]
-
 const theme = {
   Button: {
     titleStyle: {
@@ -131,19 +96,13 @@ const theme = {
       backgroundColor: 'grey',
       backgroundColor:'#f5eeed',
       borderRadius:10,
-      shadowColor: 'rgba(0, 0, 0, 0.1)',
-      shadowOpacity: 0.8,
-      elevation: 6,
-      shadowRadius: 15 ,
-      shadowOffset : { width: 1, height: 13},
+      
     }
   },
 };
-
-export default class App extends React.Component {
-  state = {
+export default class ProjectsContent extends React.Component {
+    state = {
     isSitesSelected:true,
-    regionLatitude:39.706467,
     project_btn_color:'gray',
     project_text_color:'white',
     sites_btn_color:'white',
@@ -164,35 +123,13 @@ export default class App extends React.Component {
       {
         latitude: 39.828431,
         longitude: 39.706467
-      },
-      {
-        latitude: 38.828431,
-        longitude: 38.706467
-      },
-      {
-        latitude: 38.728431,
-        longitude: 38.746467
-      },
+      }
     ]
   };
-
-  updateSearch = search => {
-    this.setState({ search });
-  };
-  
-  
-  onPressDetail = () => {
-    this.setState({
-        kubilay : true
-    });
-  };
-
-  
-  renderContent = () => {
-    const { search } = this.state;
-    return (
-      <>
-      <View style={{alignItems:'center'}}>
+render(){
+  return (
+    <View >
+        <View style={{alignItems:'center'}}>
         <View style={styles.shortLine} />
       </View>
       <View style={styles.drawerContainer}>
@@ -200,12 +137,9 @@ export default class App extends React.Component {
           platform="android"
           placeholder= "Search text..."
           onChangeText={this.updateSearch}
-          value={this.search}
-          containerStyle={{marginLeft:5,backgroundColor: '#f5eeed', borderRadius: 10, width:350, height:30,shadowColor: 'rgba(0, 0, 0, 0.1)',
-          shadowOpacity: 0.8,
-          elevation: 6,
-          shadowRadius: 15 ,
-          shadowOffset : { width: 1, height: 13},}}
+          value={this.state.search}
+          containerStyle={{marginLeft:5,backgroundColor: '#f5eeed', borderRadius: 10, width:350, height:30}}
+          
           inputStyle={{fontSize: 15}}
           inputContainerStyle={{marginTop: -10}}
           leftIconContainerStyle={{marginTop: -5}}
@@ -226,76 +160,53 @@ export default class App extends React.Component {
       <View>
         <View style={styles.line} />
       </View>
+      <View style={styles.buttons}>
+            <TouchableOpacity 
+            onPress={this.protects_click}
+            style={[styles.active_button,{backgroundColor:this.state.project_btn_color}]}>
+                <Text style={{color:this.state.project_text_color,fontSize:20}}>
+                    Projects
+                </Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+            onPress={this.sites_click}
+            style={[styles.deactive_button,{backgroundColor:this.state.sites_btn_color}]}>
+                <Text style={{color:this.state.sites_text_color,fontSize:20}}>
+                    Sites
+                </Text>
+            </TouchableOpacity>
+        </View>
       
-      <SitesContent search={this.state.search} />
-      </>
-    )
-  }
+      <View style={{marginLeft:15,marginTop:10}}> 
+          
+        <View style={{height:135}}>
+          <ScrollView>
+            <TreeView
+            initialExpanded={this.state.kubilay}
+            data={family} // defined above
+            renderNode={({ node, level, isExpanded, hasChildrenNodes }) => {
+              return (
+                <View>
+                  <Text
+                    style={{
+                      marginLeft: 25 * level,
+                    }}
+                  >
+                    {getIndicator(isExpanded, hasChildrenNodes)} {node.name}
+                  </Text>
+                </View>
+              )
+            }}
+            />
+          </ScrollView>
+          <ProjectsContent  text={"aaa"} />
+        </View>
+      </View>
+    </View>
+        );    
+    };
+}
 
-  render() {  
-  return (
-    <View style={styles.container}>
-    <View style={styles.header}>
-    <View style={styles.headerContainer}>
-            <View style={styles.circleBlue}>
-            </View>
-              <Text style={styles.sectionDescription}>
-                Completed
-              </Text>
-            </View>
-            <View style={styles.headerContainer}>
-            <View style={styles.circleGreen}>
-            </View>             
-              <Text style={styles.sectionDescription}>
-                Normal
-              </Text>
-            </View>
-            <View style={styles.headerContainer}>
-            <View style={styles.circleYellow}>
-            </View>
-              <Text style={styles.sectionDescription}>
-                Warning
-              </Text>
-            </View>
-            <View style={styles.headerContainer}>
-            <View style={styles.circleRed}>
-            </View>
-              <Text style={styles.sectionDescription}>
-                Block
-              </Text>
-            </View>
-    </View>
-    <View style={styles.body}>
-  <MapView 
-  showsUserLocation={true}
-  followsUserLocation={true}
-  clusterColor={'#44F'} 
-  initialRegion={{latitude: 39.706467,longitude: 40.928431,latitudeDelta: 11.04,longitudeDelta: 0.05,}} 
-  style={{ flex: 1 }}
-  showsUserLocation={true}
-  >
-    {
-    this.state.coordinate.map(function(data, index){
-       return (
-         <Marker key={index} coordinate={data} /> 
-       )
-     }.bind(this))
-   }
-    
-  </MapView>
-    </View>
-    <BottomDrawer
-        containerHeight={370}
-        offset={TAB_BAR_HEIGHT}
-        startUp = {false}
-      >
-        {this.renderContent()}
-      </BottomDrawer>
-</View>      
-    );
-  }
-};
- 
 var styles = StyleSheet.create({
 container: {
 flex: 1,
@@ -317,10 +228,6 @@ header: {
     flexDirection:'row',
     backgroundColor: 'white',
     justifyContent:'space-around',
-    shadowOpacity: 0.8,
-        elevation: 6,
-        shadowRadius: 15 ,
-        shadowOffset : { width: 1, height: 13}
   
 },
 body: {
