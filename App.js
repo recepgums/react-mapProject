@@ -139,8 +139,11 @@ const theme = {
     }
   },
 };
+export const search2="sads";
 
 export default class App extends React.Component {
+
+
   state = {
     isSitesSelected:true,
     regionLatitude:39.706467,
@@ -186,7 +189,10 @@ export default class App extends React.Component {
         kubilay : true
     });
   };
-
+  animate = () => {
+    const region ={latitude: 43.706467,longitude: 40.928431,latitudeDelta: 11.04,longitudeDelta: 0.05,} 
+    this.map.animateToRegion(region, 1000);
+  }
   
   renderContent = () => {
     const { search } = this.state;
@@ -267,6 +273,8 @@ export default class App extends React.Component {
     </View>
     <View style={styles.body}>
   <MapView 
+  ref={ref => (this.map = ref)}
+  
   showsUserLocation={true}
   followsUserLocation={true}
   clusterColor={'#44F'} 

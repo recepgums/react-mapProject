@@ -1,6 +1,6 @@
 import React from 'react';
 import {SafeAreaView,StyleSheet,View,Text,TouchableOpacity,ScrollView } from 'react-native';
-import {  App} from "./../App";
+import { search2, App} from "./../App";
 import TreeView from 'react-native-final-tree-view';
 const family = [
   {
@@ -182,6 +182,7 @@ function getIndicator(isExpanded, hasChildrenNodes) {
 }
 export default class SitesContent extends React.Component {
     state = {
+    arama:search2,
     konum_x:40.928431,
     isSitesSelected:true,
     project_btn_color:'gray',
@@ -199,7 +200,8 @@ export default class SitesContent extends React.Component {
     project_text_color:'gray',
     sites_btn_color:'gray',
     sites_text_color:'white',
-    isSitesSelected:false
+    isSitesSelected:false,
+    arama:'xxxx'
     });
   };
    protects_click= ()=>{
@@ -227,11 +229,12 @@ content= ()=>{
                       marginLeft: 25 * level,
                     }}
                   >
-                    {getIndicator(isExpanded, hasChildrenNodes)} {node.name}
+                    {getIndicator(isExpanded, hasChildrenNodes)} {node.name}{this.state.arama}
                   </Text>
                 </View>
               )
             }}
+            
             />
         </>
     )
