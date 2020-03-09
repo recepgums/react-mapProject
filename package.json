@@ -16,9 +16,9 @@
     "react-native": "0.61.5",
     "react-native-elements": "^1.2.7",
     "react-native-final-tree-view": "^2.0.1",
-    "react-native-google-places-autocomplete": "^1.4.1",
     "react-native-map-clustering": "^3.1.2",
     "react-native-maps": "0.26.1",
+    "react-native-sectioned-multi-select": "^0.7.6",
     "react-native-vector-icons": "^6.6.0",
     "rn-bottom-drawer": "^1.4.3"
   },
