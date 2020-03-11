@@ -15,6 +15,7 @@ import { Marker} from "react-native-maps";
 import SitesContent from "./components/SitesContent";
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import {aaa} from "./components/ProjectsContent";
+import { Dropdown } from 'react-native-material-dropdown';
 
 import {
   StyleSheet,
@@ -22,105 +23,13 @@ import {
   View,
   Text,
   TouchableOpacity,
+  Modal,
   KeyboardAvoidingView 
 } from 'react-native';
 
-function getIndicator(isExpanded, hasChildrenNodes) {
-  if (!hasChildrenNodes) {
-    return '-'
-  } else if (isExpanded) {
-    return '\\/'
-  } else {
-    return '>'
-  }
-}
-
 const TAB_BAR_HEIGHT = -75;
 
-const family = [
-  {
-    id: 'Grandparent',
-    name: 'Türkiye',
-    age: 78,
-    children: [
-      {
-        id: 'Me',
-        name: 'Trabzon',
-        age: 30,
-        children: [
-          {
-            id: 'Erick',
-            name: 'Cluster 1',
-            age: 10,
-            children: [
-              {
-                id: 'Erick2',
-                name: 'Site 1',
-                age: 10,
-              },
-              {
-                id: 'Rose',
-                name: 'Site 2',
-                age: 12,
-              },
-            ],
-          },
-          {
-            id: 'Rose2',
-            name: 'Cluster 2',
-            age: 12,
-          },
-          {
-            id: 'David',
-            name: 'Cluster 3',
-            age: 12,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'Grandparent2',
-    name: 'Türkiye',
-    age: 78,
-    children: [
-      {
-        id: 'Me2',
-        name: 'Trabzon',
-        age: 30,
-        children: [
-          {
-            id: 'Erick3',
-            name: 'Cluster 1',
-            age: 10,
-            children: [
-              {
-                id: 'Erick4',
-                name: 'Site 1',
-                age: 10,
-              },
-              {
-                id: 'Rose22',
-                name: 'Site 2',
-                age: 12,
-              },
-            ],
-          },
-          {
-            id: 'Rose32',
-            name: 'Cluster 2',
-            age: 12,
-          },
-          {
-            id: 'David3',
-            name: 'Cluster 3',
-            age: 12,
-          },
-        ],
-      },
-    ],
-  },
-]
+
 
 const items = [{
     name: 'Country',
@@ -184,7 +93,17 @@ const items3 = [{
       }
     ],
   }];
-
+const proje_selecting_bar =[
+    {
+      value:'Project 1'
+    },
+    {
+      value:'Project 2'
+    },
+    {
+      value:'Project 3'
+    }
+  ];
 const theme = {
   Button: {
     titleStyle: {
@@ -208,10 +127,15 @@ export default class App extends React.Component {
 
 
   state = {
+    modalVisible:false,
+    current_tab:1,
     current_region:'',
-    region_btn_clr:'#5aa6da',
-    model_btn_clr:'#55f',
-    cluster_btn_clr:'#55f',
+    region_btn_clr:'#77f',
+    region_txt_clr:'black',
+    model_btn_clr:'white',
+    model_txt_clr:'black',
+    cluster_btn_clr:'white',
+    cluster_txt_clr:'black',
     selectedItems: [],
     isSitesSelected:true,
     regionLatitude:39.706467,
@@ -226,27 +150,58 @@ export default class App extends React.Component {
     coordinate:[
       {
         latitude: 40.928431,
-        longitude: 39.706467
+        longitude: 39.706467,
+        description:'sadsa',
       },
       {
         latitude: 39.928431,
-        longitude: 39.706467
+        longitude: 39.706467,
+        description:'sadsa',
       },
       {
         latitude: 39.828431,
-        longitude: 39.706467
+        longitude: 39.706467,
+        description:'sadsa',
       },
       {
         latitude: 38.828431,
-        longitude: 38.706467
+        longitude: 38.706467,
+        description:'sadsa',
       },
       {
         latitude: 38.728431,
-        longitude: 38.746467
+        longitude: 38.746467,
+        description:'sadsa',
       },
     ]
   };
 
+
+  onPressRegionTab=()=>{
+    this.setState({
+      region_btn_clr:'#77f',
+      model_btn_clr:'white',
+      cluster_btn_clr:'white',
+      current_tab:1
+    })
+  }
+  onPressModalTab=()=>{
+    this.setState({
+      region_btn_clr:'white',
+      model_btn_clr:'#77f',
+      cluster_btn_clr:'white',
+      current_tab:2
+    })
+  }
+  onPressClusterTab=()=>{
+    
+    this.setState({
+      region_btn_clr:'white',
+      model_btn_clr:'white',
+      cluster_btn_clr:'#77f',
+      current_tab:3
+    })
+  }
 
 
   updateSearch = search => {
@@ -274,6 +229,348 @@ export default class App extends React.Component {
     
   }
   
+  
+  renderHeader_3_dropdown = ()=>{
+    if(this.state.current_tab==1){
+     
+      return(
+        <>
+              <View style={styles.headerContainer}>
+              <Text style={{marginLeft:10}}>Country</Text>
+              <SectionedMultiSelect 
+              showCancelButton={true}
+              showDropDowns={true}
+              items={items}
+              uniqueKey="id"
+              subKey="children"
+              showChips={false}
+              showDropDowns={true}
+              readOnlyHeadings={false}
+              onSelectedItemsChange={this.onSelectedItemsChange}
+              selectedItems={this.state.selectedItems}
+              />
+              </View>
+  
+              <View style={styles.headerContainer}>
+              <Text>Province</Text>
+              <SectionedMultiSelect
+              showCancelButton={true}
+              showDropDowns={true}
+              items={items3}
+              uniqueKey="id"
+              subKey="children"
+              showChips={false}
+              showDropDowns={true}
+              readOnlyHeadings={false}
+              onSelectedItemsChange={this.onSelectedItemsChange}
+              selectedItems={this.state.selectedItems}
+              />
+              </View>
+  
+              <View style={styles.headerContainer}>
+              <Text>City</Text>
+              <SectionedMultiSelect
+              showCancelButton={true}
+              showDropDowns={true}
+              items={items2}
+              uniqueKey="id"
+              subKey="children"
+              showChips={false}
+              showDropDowns={true}
+              readOnlyHeadings={false}
+              onSelectedItemsChange={this.onSelectedItemsChange}
+              selectedItems={this.state.selectedItems}
+              />           
+                  
+              </View>
+              
+        </>
+      )
+    }
+    else if(this.state.current_tab==2){
+     
+      return(
+        <>
+              <View style={styles.headerContainer}>
+              <Text style={{marginLeft:10}}>Model</Text>
+              <SectionedMultiSelect 
+              showCancelButton={true}
+              showDropDowns={true}
+              items={items}
+              uniqueKey="id"
+              subKey="children"
+              showChips={false}
+              showDropDowns={true}
+              readOnlyHeadings={false}
+              onSelectedItemsChange={this.onSelectedItemsChange}
+              selectedItems={this.state.selectedItems}
+              />
+              </View>
+  
+              <View style={styles.headerContainer}>
+              <Text>Model2</Text>
+              <SectionedMultiSelect
+              showCancelButton={true}
+              showDropDowns={true}
+              items={items3}
+              uniqueKey="id"
+              subKey="children"
+              showChips={false}
+              showDropDowns={true}
+              readOnlyHeadings={false}
+              onSelectedItemsChange={this.onSelectedItemsChange}
+              selectedItems={this.state.selectedItems}
+              />
+              </View>
+  
+              <View style={styles.headerContainer}>
+              <Text>Model3</Text>
+              <SectionedMultiSelect
+              showCancelButton={true}
+              showDropDowns={true}
+              items={items2}
+              uniqueKey="id"
+              subKey="children"
+              showChips={false}
+              showDropDowns={true}
+              readOnlyHeadings={false}
+              onSelectedItemsChange={this.onSelectedItemsChange}
+              selectedItems={this.state.selectedItems}
+              />           
+                  
+              </View>
+              
+        </>
+      )
+    }
+    return(
+      <>
+            <View style={styles.headerContainer}>
+            <Text style={{marginLeft:10}}>Cluster</Text>
+            <SectionedMultiSelect 
+            showCancelButton={true}
+            showDropDowns={true}
+            items={items}
+            uniqueKey="id"
+            subKey="children"
+            showChips={false}
+            showDropDowns={true}
+            readOnlyHeadings={false}
+            onSelectedItemsChange={this.onSelectedItemsChange}
+            selectedItems={this.state.selectedItems}
+            />
+            </View>
+  
+            <View style={styles.headerContainer}>
+            <Text>Cluster1</Text>
+            <SectionedMultiSelect
+            showCancelButton={true}
+            showDropDowns={true}
+            items={items3}
+            uniqueKey="id"
+            subKey="children"
+            showChips={false}
+            showDropDowns={true}
+            readOnlyHeadings={false}
+            onSelectedItemsChange={this.onSelectedItemsChange}
+            selectedItems={this.state.selectedItems}
+            />
+            </View>
+  
+            <View style={styles.headerContainer}>
+            <Text>Cluster2</Text>
+            <SectionedMultiSelect
+            showCancelButton={true}
+            showDropDowns={true}
+            items={items2}
+            uniqueKey="id"
+            subKey="children"
+            showChips={false}
+            showDropDowns={true}
+            readOnlyHeadings={false}
+            onSelectedItemsChange={this.onSelectedItemsChange}
+            selectedItems={this.state.selectedItems}
+            />           
+                
+            </View>
+            
+      </>
+    )
+  
+  }
+  
+
+
+renderHeader_4_dropdown = ()=>{
+  if(this.state.current_tab==1){
+   
+    return(
+      <>
+            <View style={styles.headerContainer}>
+            <Text style={{marginLeft:10}}>Country</Text>
+            <SectionedMultiSelect 
+            showCancelButton={true}
+            showDropDowns={true}
+            items={items}
+            uniqueKey="id"
+            subKey="children"
+            showChips={false}
+            showDropDowns={true}
+            readOnlyHeadings={false}
+            onSelectedItemsChange={this.onSelectedItemsChange}
+            selectedItems={this.state.selectedItems}
+            />
+            </View>
+
+            <View style={styles.headerContainer}>
+            <Text>Province</Text>
+            <SectionedMultiSelect
+            showCancelButton={true}
+            showDropDowns={true}
+            items={items3}
+            uniqueKey="id"
+            subKey="children"
+            showChips={false}
+            showDropDowns={true}
+            readOnlyHeadings={false}
+            onSelectedItemsChange={this.onSelectedItemsChange}
+            selectedItems={this.state.selectedItems}
+            />
+            </View>
+
+            <View style={styles.headerContainer}>
+            <Text>City</Text>
+            <SectionedMultiSelect
+            showCancelButton={true}
+            showDropDowns={true}
+            items={items2}
+            uniqueKey="id"
+            subKey="children"
+            showChips={false}
+            showDropDowns={true}
+            readOnlyHeadings={false}
+            onSelectedItemsChange={this.onSelectedItemsChange}
+            selectedItems={this.state.selectedItems}
+            />           
+                
+            </View>
+            
+      </>
+    )
+  }
+  else if(this.state.current_tab==2){
+   
+    return(
+      <>
+            <View style={styles.headerContainer}>
+            <Text style={{marginLeft:10}}>Model</Text>
+            <SectionedMultiSelect 
+            showCancelButton={true}
+            showDropDowns={true}
+            items={items}
+            uniqueKey="id"
+            subKey="children"
+            showChips={false}
+            showDropDowns={true}
+            readOnlyHeadings={false}
+            onSelectedItemsChange={this.onSelectedItemsChange}
+            selectedItems={this.state.selectedItems}
+            />
+            </View>
+
+            <View style={styles.headerContainer}>
+            <Text>Model2</Text>
+            <SectionedMultiSelect
+            showCancelButton={true}
+            showDropDowns={true}
+            items={items3}
+            uniqueKey="id"
+            subKey="children"
+            showChips={false}
+            showDropDowns={true}
+            readOnlyHeadings={false}
+            onSelectedItemsChange={this.onSelectedItemsChange}
+            selectedItems={this.state.selectedItems}
+            />
+            </View>
+
+            <View style={styles.headerContainer}>
+            <Text>Model3</Text>
+            <SectionedMultiSelect
+            showCancelButton={true}
+            showDropDowns={true}
+            items={items2}
+            uniqueKey="id"
+            subKey="children"
+            showChips={false}
+            showDropDowns={true}
+            readOnlyHeadings={false}
+            onSelectedItemsChange={this.onSelectedItemsChange}
+            selectedItems={this.state.selectedItems}
+            />           
+                
+            </View>
+            
+      </>
+    )
+  }
+  return(
+    <>
+          <View style={styles.headerContainer}>
+          <Text style={{marginLeft:10}}>Cluster</Text>
+          <SectionedMultiSelect 
+          showCancelButton={true}
+          showDropDowns={true}
+          items={items}
+          uniqueKey="id"
+          subKey="children"
+          showChips={false}
+          showDropDowns={true}
+          readOnlyHeadings={false}
+          onSelectedItemsChange={this.onSelectedItemsChange}
+          selectedItems={this.state.selectedItems}
+          />
+          </View>
+
+          <View style={styles.headerContainer}>
+          <Text>Cluster1</Text>
+          <SectionedMultiSelect
+          showCancelButton={true}
+          showDropDowns={true}
+          items={items3}
+          uniqueKey="id"
+          subKey="children"
+          showChips={false}
+          showDropDowns={true}
+          readOnlyHeadings={false}
+          onSelectedItemsChange={this.onSelectedItemsChange}
+          selectedItems={this.state.selectedItems}
+          />
+          </View>
+
+          <View style={styles.headerContainer}>
+          <Text>Cluster2</Text>
+          <SectionedMultiSelect
+          showCancelButton={true}
+          showDropDowns={true}
+          items={items2}
+          uniqueKey="id"
+          subKey="children"
+          showChips={false}
+          showDropDowns={true}
+          readOnlyHeadings={false}
+          onSelectedItemsChange={this.onSelectedItemsChange}
+          selectedItems={this.state.selectedItems}
+          />           
+              
+          </View>
+          
+    </>
+  )
+
+}
+
+
   renderContent = () => {
     const { search } = this.state;
     return (
@@ -318,7 +615,7 @@ export default class App extends React.Component {
         <View style={styles.line} />
       </View>
       
-      <SitesContent search={this.state.search} />
+      <SitesContent coordinate={this.state.coordinate} search={this.state.search} />
       </>
     )
   }
@@ -326,71 +623,44 @@ export default class App extends React.Component {
   render() {  
   return (
     <View  style={styles.container}>
+
+
+     
+
+
       <View style={styles.header2}>
-        <View style={styles.headerContainer}>
+        <View style={[styles.headerContainer,{marginTop:20}]}>
         <TouchableOpacity
-         style={{height:20,width:100,marginRight:1,backgroundColor:this.state.region_btn_clr,borderBottomColor:'black',borderRadius:2}}><Text style={{color:'white'}}> Region </Text>
+        onPress={this.onPressRegionTab}
+         style={{marginBottom:15,height:35,width:120,marginRight:1,backgroundColor:this.state.region_btn_clr,borderBottomColor:'black',borderRadius:2,borderWidth:0.5,}}><Text style={{color:this.state.region_txt_clr,textAlign:'center'}}> Region </Text>
        </TouchableOpacity>
         </View>
-        <View style={styles.headerContainer}>
+        <View style={[styles.headerContainer,{marginTop:20}]}>
         <TouchableOpacity
-         style={{height:20,width:100,marginRight:1,backgroundColor:this.state.model_btn_clr,borderBottomColor:'black',borderRadius:2}}><Text style={{color:'white'}}> Model </Text>
+        onPress={this.onPressModalTab}
+         style={{marginBottom:15,height:35,width:120,marginRight:1,backgroundColor:this.state.model_btn_clr,borderBottomColor:'black',borderRadius:2,borderWidth:0.5}}><Text style={{color:this.state.model_txt_clr,textAlign:'center'}}> Model </Text>
        </TouchableOpacity>
         </View>
-        <View style={styles.headerContainer}>
+        <View style={[styles.headerContainer,{marginTop:20}]}>
         <TouchableOpacity
-         style={{height:20,width:100,backgroundColor:this.state.cluster_btn_clr,borderBottomColor:'black',borderRadius:2}}><Text style={{color:'white'}}> Cluster </Text>
+        onPress={this.onPressClusterTab}
+         style={{marginBottom:15,height:35,width:120,backgroundColor:this.state.cluster_btn_clr,borderBottomColor:'black',borderRadius:2,borderWidth:0.5}}><Text style={{color:this.state.cluster_txt_clr,textAlign:'center'}}> Cluster </Text>
        </TouchableOpacity>
         </View>
       </View>
     <View style={styles.header}>
-    <View style={styles.headerContainer}>
-            <Text style={{marginLeft:10}}>Countries</Text>
-            <SectionedMultiSelect 
-            showCancelButton={true}
-            showDropDowns={true}
-            items={items}
-            uniqueKey="id"
-            subKey="children"
-            showChips={false}
-            showDropDowns={true}
-            readOnlyHeadings={false}
-            onSelectedItemsChange={this.onSelectedItemsChange}
-            selectedItems={this.state.selectedItems}
-            />
-            </View>
-            <View style={styles.headerContainer}>
-            <Text>City</Text>
-            <SectionedMultiSelect
-            showCancelButton={true}
-            showDropDowns={true}
-            items={items2}
-            uniqueKey="id"
-            subKey="children"
-            showChips={false}
-            showDropDowns={true}
-            readOnlyHeadings={false}
-            onSelectedItemsChange={this.onSelectedItemsChange}
-            selectedItems={this.state.selectedItems}
-            />           
-                
-            </View>
-            <View style={styles.headerContainer}>
-            <Text>Province</Text>
-            <SectionedMultiSelect
-            showCancelButton={true}
-            showDropDowns={true}
-            items={items3}
-            uniqueKey="id"
-            subKey="children"
-            showChips={false}
-            showDropDowns={true}
-            readOnlyHeadings={false}
-            onSelectedItemsChange={this.onSelectedItemsChange}
-            selectedItems={this.state.selectedItems}
-            />
-                
-            </View>
+        {this.renderHeader_4_dropdown()}
+        </View>
+        <View style={styles.header}>
+          {this.renderHeader_3_dropdown()}
+          {/*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$*/}
+
+
+
+
+
+
+            
             <View style={styles.headerContainer}>
             {/* <TouchableOpacity style={{backgroundColor:"#ccf"}}><Text>dsads</Text></TouchableOpacity> */}
             <Button
@@ -406,6 +676,7 @@ export default class App extends React.Component {
                 
             </View>
     </View>
+   
     <View style={styles.body}>
   <MapView 
 
@@ -417,15 +688,41 @@ export default class App extends React.Component {
     style={{ flex: 1 }}
     showsUserLocation={true}
   >
+
+
     {
     this.state.coordinate.map(function(data, index){
        return (
-         <Marker key={index} coordinate={data} /> 
+         <Marker key={index} coordinate={data} title={"sd"} description={this.state.coordinate[index].description} /> 
        )
      }.bind(this))
    }
-    
+{/*     
+     */}
+
   </MapView>
+  <View style={{position: 'absolute',alignSelf: 'flex-end',backgroundColor:'white',paddingHorizontal: 5,justifyContent:'center',marginTop:5}}>
+  <Dropdown
+    renderBase={() => (
+      <Icon
+              name="bars"
+              size={25}
+              
+            />
+    )}
+        label='Favorite Fruit'
+        data={proje_selecting_bar}
+        pickerStyle={{
+          width: 128,
+      
+          left: null,
+          right: 0,
+      
+          marginRight: 8,
+          marginTop: 24
+        }}
+      />
+    </View>
     </View>
     <BottomDrawer
         containerHeight={370}
@@ -468,7 +765,7 @@ header: {
   
 },
 header2: {
-  flex: 0.5,
+  flex: 0.7,
   flexDirection:'row',
   backgroundColor: 'white',
   justifyContent: 'center',

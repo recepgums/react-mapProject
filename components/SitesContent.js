@@ -182,6 +182,7 @@ function getIndicator(isExpanded, hasChildrenNodes) {
 }
 export default class SitesContent extends React.Component {
     state = {
+    coordinate:this.props.coordinate,
     arama:search2,
     konum_x:40.928431,
     isSitesSelected:true,
@@ -229,7 +230,7 @@ content= ()=>{
                       marginLeft: 25 * level,
                     }}
                   >
-                    {getIndicator(isExpanded, hasChildrenNodes)} {node.name}{this.state.arama}
+                    {getIndicator(isExpanded, hasChildrenNodes)} {node.name}{this.state.coordinate[0].description}
                   </Text>
                 </View>
               )
@@ -252,7 +253,7 @@ content= ()=>{
                       marginLeft: 25 * level,
                     }}
                   >
-                    {getIndicator(isExpanded, hasChildrenNodes)} {node.name}
+                    {getIndicator(isExpanded, hasChildrenNodes)} {node.name}{this.props.coordinate[0].description}
                   </Text>
                 </View>
               )
