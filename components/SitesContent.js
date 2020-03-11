@@ -182,7 +182,7 @@ function getIndicator(isExpanded, hasChildrenNodes) {
 }
 export default class SitesContent extends React.Component {
     state = {
-    coordinate:this.props.coordinate,
+    coordinate: this.props.coordinate,
     arama:search2,
     konum_x:40.928431,
     isSitesSelected:true,
@@ -230,7 +230,7 @@ content= ()=>{
                       marginLeft: 25 * level,
                     }}
                   >
-                    {getIndicator(isExpanded, hasChildrenNodes)} {node.name}{this.state.coordinate[0].description}
+                    {this.state.coordinate[level].title} - {this.state.coordinate[level].description}
                   </Text>
                 </View>
               )
@@ -253,7 +253,7 @@ content= ()=>{
                       marginLeft: 25 * level,
                     }}
                   >
-                    {getIndicator(isExpanded, hasChildrenNodes)} {node.name}{this.props.coordinate[0].description}
+                    {getIndicator(isExpanded, hasChildrenNodes)} {node.name}
                   </Text>
                 </View>
               )
@@ -268,22 +268,6 @@ render(){
     const konumx= this.state.konum_x;
   return (
     <>
-        <View style={styles.buttons}>
-            <TouchableOpacity 
-            onPress={this.protects_click}
-            style={[styles.active_button,{backgroundColor:this.state.project_btn_color}]}>
-                <Text style={{color:this.state.project_text_color,fontSize:20}}>
-                    Projects
-                </Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-            onPress={this.sites_click}
-            style={[styles.deactive_button,{backgroundColor:this.state.sites_btn_color}]}>
-                <Text style={{color:this.state.sites_text_color,fontSize:20}}>
-                    Sites
-                </Text>
-            </TouchableOpacity>
-        </View>
       
       <View style={{marginLeft:15,marginTop:10}}> 
         <View style={{height:135}}>
