@@ -1,26 +1,32 @@
 import React from 'react';
 import {SafeAreaView,StyleSheet,View,Text,TouchableOpacity,ScrollView } from 'react-native';
-import { search2, App} from "./../App";
+import { search2, App} from "../App";
 import TreeView from 'react-native-final-tree-view';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import BottomDrawer from 'rn-bottom-drawer';
 const TAB_BAR_HEIGHT = -75;
 
-export default class SitesContent extends React.Component {
+export default class BottomContent extends React.Component {
+  
+
   state = {
     progress_state: this.props.current_active_step,
     current_description: this.props.current_description,
     current_title: this.props.current_title,
     current_marker: 0,
     };
+componentDidMount(){
+  console.log("heey"+this.props.isHidden)
+}
 render(){
+  const isHidden=this.props.isHidden || false;
+  if(isHidden){
+    return null;
+  }
   return (
-    <BottomDrawer containerHeight={370} offset={TAB_BAR_HEIGHT} startUp={false}>
+    <BottomDrawer containerHeight={320} offset={TAB_BAR_HEIGHT} startUp={true}>
     <View style={{flex:1,alignItems:'center'}}>
-        <View style={styles.shortLine} />
-        <View>
-            <View style={styles.line} />
-        </View>
+        <View />
         <View style={{flex:1,marginBottom:5}}>
           <ProgressSteps 
             key={this.props.current_active_step}
@@ -34,7 +40,6 @@ render(){
             activeLabelColor='#dc143c'
             borderWidth={3} 
           >
-
             <ProgressStep label="SS" >
                   <View style={{ alignItems: 'center' }}>
                 </View>
@@ -90,58 +95,8 @@ render(){
         );    
     };
 }
-
-
-
-
-
 var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  headerContainer: {
-    textAlignVertical: 'top',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  drawerContainer: {
-    marginHorizontal: 10,
-    marginTop: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  header: {
-    flex: 1.2,
-    flexDirection: 'row',
-    backgroundColor: 'white',
-    justifyContent: 'space-around',
-    shadowOpacity: 0.8,
-    elevation: 6,
-    shadowRadius: 15,
-    shadowOffset: { width: 1, height: 13 }
-
-  },
-  header2: {
-    flex: 0.7,
-    flexDirection: 'row',
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowOpacity: 0.8,
-    elevation: 6,
-    shadowRadius: 15,
-    shadowOffset: { width: 1, height: 13 }
-
-  },
-  body: {
-    flex: 13, // veya .25
-    backgroundColor: '#CCC',
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
+  
   shortLine: {
     marginTop: 10,
     width: 35,
@@ -154,54 +109,5 @@ var styles = StyleSheet.create({
     height: 1.5,
     backgroundColor: 'grey',
     opacity: .3
-  },
-  circleBlue: {
-    backgroundColor: 'blue',
-    width: 15,
-    height: 15,
-    borderRadius: 150 / 2
-  },
-  circleGreen: {
-    backgroundColor: 'green',
-    width: 15,
-    height: 15,
-    borderRadius: 150 / 2
-  },
-  circleYellow: {
-    backgroundColor: 'yellow',
-    width: 15,
-    height: 15,
-    borderRadius: 150 / 2
-  },
-  circleRed: {
-    backgroundColor: 'red',
-    width: 15,
-    height: 15,
-    borderRadius: 150 / 2
-  },
-  active_button: {
-    flex: 1,
-    borderRadius: 5,
-    borderWidth: 1,
-    alignItems: 'center',
-    height: 35,
-    marginLeft: 10
-
-  },
-  deactive_button: {
-    flex: 1,
-    backgroundColor: 'white',
-    borderRadius: 5,
-    borderWidth: 1,
-    alignItems: 'center',
-    height: 35,
-    marginLeft: 10
-
-  },
-  buttons: {
-    marginTop: 5,
-    flexDirection: 'row',
-    justifyContent: 'center',
-
   },
 });

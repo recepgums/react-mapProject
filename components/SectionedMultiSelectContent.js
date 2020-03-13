@@ -3,7 +3,9 @@ import {SafeAreaView,StyleSheet,View,Text,TouchableOpacity,ScrollView } from 're
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 
 export default class SectionedMultiSelectContent extends React.Component {
+
 render(){
+  
   return (
     <View style={styles.headerContainer}>
             <Text style={{ marginLeft: 10 }}>{this.props.title}</Text>
@@ -36,3 +38,28 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
 })
+
+
+/*
+
+<SectionedMultiSelect
+              styles={{
+                selectToggle: {
+                  backgroundColor: '#8BC540',
+                  alignItems: 'center',
+                  alignContent: 'center',
+                  height: 50,
+                  marginBottom: 12,
+                },
+              }}
+              renderSelectText={() => {
+                return (
+                  <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
+                    <Icon type="AntDesign" name="chevron-circle-down" size={15} color="white" />
+                    <Text style={{ color: '#F5F4F4' }}>Site Model</Text>
+                  </View>
+
+                );
+              }}
+
+*/ 
