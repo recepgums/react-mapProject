@@ -1,11 +1,8 @@
 import React from 'react';
-import {SafeAreaView,StyleSheet,View,Text,TouchableOpacity,ScrollView } from 'react-native';
-import { search2, App} from "../App";
-import TreeView from 'react-native-final-tree-view';
+import {View,Text} from 'react-native';
+import {  App} from "../App";
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import BottomDrawer from 'rn-bottom-drawer';
-const TAB_BAR_HEIGHT = -75;
-
 export default class BottomContent extends React.Component {
   
 
@@ -16,15 +13,14 @@ export default class BottomContent extends React.Component {
     current_marker: 0,
     };
 componentDidMount(){
-  console.log("heey"+this.props.isHidden)
 }
-render(){
+  render() {
   const isHidden=this.props.isHidden || false;
   if(isHidden){
     return null;
   }
   return (
-    <BottomDrawer containerHeight={320} offset={TAB_BAR_HEIGHT} startUp={true}>
+    <BottomDrawer containerHeight={320} offset={-75} startUp={true}>
     <View style={{flex:1,alignItems:'center'}}>
         <View />
         <View style={{flex:1,marginBottom:5}}>
@@ -77,7 +73,6 @@ render(){
       <View style={{textAlign:'center',alignSelf: 'center'}}>
             <View>
               <Text style={{fontSize:20,textAlign:'center',marginTop:10}}>
-                
                 {this.state.current_title}
                 </Text>
             </View>
@@ -95,19 +90,3 @@ render(){
         );    
     };
 }
-var styles = StyleSheet.create({
-  
-  shortLine: {
-    marginTop: 10,
-    width: 35,
-    height: 6,
-    backgroundColor: 'grey',
-    opacity: .3
-  },
-  line: {
-    marginTop: 10,
-    height: 1.5,
-    backgroundColor: 'grey',
-    opacity: .3
-  },
-});
